@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-weight: 700;
+}
+.btn {
+  padding: 15px 20px;
+  background-color: transparent;
+  /* border: 1px solid #337ab7; */
+  border-radius: 0.6em;
+  border: none;
+  color: #337ab7;
+
+  text-decoration: none;
+
+  /* text-transform: uppercase; */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+    box-shadow: 0 0 40px 40px #337ab7 inset;
+  }
+}

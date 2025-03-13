@@ -4,7 +4,8 @@ import * as Yup from 'yup';
 //Імпортуємо хук
 import { useDispatch } from 'react-redux';
 //Імпортуємо фабрику екшену
-import { addContact } from '../../redux/contactsOps';
+import { addContact } from '../../redux/contacts/operations';
+import { Button } from '../Button/Button';
 
 const ContactForm = () => {
   //Отримуємо посилання на функцію відправки екшенів
@@ -74,17 +75,9 @@ const ContactForm = () => {
               </Field>
               <ErrorMessage name="number" component="span" />
             </label>
-            <label className={s.label}>
-              Group
-              <Field as="select" name="group" className={s.field}>
-                <option value="family">Family</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </Field>
-            </label>
-            <button className={s.btn} type="submit">
+            <Button className={s.btn} type="submit">
               Add contact
-            </button>
+            </Button>
           </Form>
         )}
       </Formik>

@@ -1,7 +1,7 @@
 import Contact from '../Contact/Contact';
 import s from './ContactList.module.css';
 import { useSelector } from 'react-redux';
-import { selectVisibleContacts } from '../../redux/contactsSlice';
+import { selectVisibleContacts } from '../../redux/filters/selectors';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { FaRegFaceSadCry } from 'react-icons/fa6';
 

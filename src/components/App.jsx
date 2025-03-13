@@ -1,41 +1,37 @@
-import AppBar from './AppBar/AppBar';
-import ContactForm from './ContactForm/ContactForm';
-import ContactList from './ContactList/ContactList';
+// denaca3624@calmpros.com
+//   denaca3624
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from '../redux/contactsOps';
-import { useEffect } from 'react';
 
-import Header from './Header/Header';
+import { lazy, useEffect } from 'react';
+
 import Layout from './Layout/Layout';
 
-import SearchBox from './SearchBox/SearchBox';
-import { selectError, selectLoading } from '../redux/contactsSlice';
+import { selectError } from '../redux/contacts/selectors';
 import { toast } from 'react-hot-toast';
-import Loader from './Loader/Loader';
 
-import ScrollTop from './ScrollTop/ScrollTop';
+import { selectIsRefreshing } from '../redux/auth/selectors';
+import { refreshUser } from '../redux/auth/operations';
+import { Route, Routes } from 'react-router-dom';
+import { RestrictedRoute } from './RestrictedRoute';
+import PrivateRoute from './PrivateRoute';
+
+const HomePage = lazy(() => import('../pages/HomePage'));
+const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
+const ContactsPage = lazy(() => import('../pages/ContactsPage'));
 
 function App() {
   const dispatch = useDispatch();
+
   // Отримуємо частини стану
-  const loading = useSelector(selectLoading);
+  const isRefreshing = useSelector(selectIsRefreshing);
+  // const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
+
   // Викликаємо операцію
   useEffect(() => {
-    //Встановлюємо abortController для відміни запиту на сервер
-    const abortController = new AbortController();
-    dispatch(fetchContacts(abortController.signal));
-
-    //Налаштовуємо таймер для відміни запиту на сервер
-    setTimeout(() => {
-      abortController.abort();
-    }, 6000); //якщо 6 секунд сервер не відповідає - відмінити запит
-
-    //Якщо користувач перейшов на іншу сторінку... - відміняємо запит на сервер
-    return () => {
-      abortController.abort();
-    };
+    dispatch(refreshUser());
   }, [dispatch]);
 
   useEffect(() => {
@@ -43,14 +39,34 @@ function App() {
       toast.error(error);
     }
   }, [error]);
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     <Layout>
-      <Header />
-      <AppBar />
-      <ContactForm />
-      <SearchBox />
-      {loading ? <Loader /> : <ContactList />}
-      <ScrollTop />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+      </Routes>
     </Layout>
   );
 }

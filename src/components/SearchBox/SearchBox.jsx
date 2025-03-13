@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 //Імпортуємо хук
 import { useDispatch, useSelector } from 'react-redux';
 //Імпортуємо фабрику екшену
-import { changeFilter } from '../../redux/filtersSlice';
-import { selectContacts } from '../../redux/contactsSlice';
+import { changeFilter } from '../../redux/filters/slice';
+import { selectContacts } from '../../redux/contacts/selectors';
 
 // const SearchBox = { value, onSearch, placeholderText };
 const SearchBox = () => {

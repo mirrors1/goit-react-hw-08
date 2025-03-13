@@ -1,19 +1,19 @@
-import { ContactCounter } from '../ContactCounter/ContactCounter';
-import { StatusFilter } from '../StatusFilter/StatusFilter';
+import { useSelector } from 'react-redux';
 import s from './AppBar.module.css';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import Navigation from '../Navigation/Navigation';
+import UserMenu from '../UserMenu/UserMenu';
+import AuthNav from '../AuthNav/AuthNav';
 
 const AppBar = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   return (
-    <header className={s.wrapper}>
-      <section className={s.section}>
-        <h2 className={screen.title}>Contacts</h2>
-        <ContactCounter />
-      </section>
-      <section className={s.section}>
-        <h2 className={s.title}>Filter by group</h2>
-        <StatusFilter />
-      </section>
+    <header className={s.header}>
+      <Navigation />
+      {isLoggedIn ? <UserMenu /> : <AuthNav />}
     </header>
   );
 };
+
 export default AppBar;

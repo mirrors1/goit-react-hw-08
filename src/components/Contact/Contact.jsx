@@ -4,7 +4,8 @@ import s from './Contact.module.css';
 //Імпортуємо хук
 import { useDispatch } from 'react-redux';
 //Імпортуємо фабрику екшену
-import { deleteContact } from '../../redux/contactsOps';
+import { deleteContact } from '../../redux/contacts/operations';
+import { Button } from '../Button/Button';
 
 export default function Contact({ contact: { id, name, number, group } }) {
   //Отримуємо посилання на функцію відправки екшенів
@@ -37,17 +38,10 @@ export default function Contact({ contact: { id, name, number, group } }) {
             {number}
           </a>
         </div>
-        <div className={s.containerPhone}>
-          <IconContext.Provider value={iconDataValue}>
-            <FaUserGroup className={s.icon} />
-          </IconContext.Provider>
-          <p className={s.group}>{group}</p>
-        </div>
       </div>
-      {/* <button className={s.btn} onClick={() => onDelete(id)}></button> */}
-      <button className={s.btn} onClick={handleDelete}>
+      <Button className={s.btn} onClick={handleDelete}>
         Delete
-      </button>
+      </Button>
     </>
   );
 }
